@@ -132,9 +132,13 @@ def fesCarrega():
     )
     frangesKronowin = list(frangesMatins) + list(frangesTardes)
     for frangaAula, franjaKronowin in zip(frangesAula, frangesKronowin):
-        Franja2Aula.objects.get_or_create(
-            franja_kronowin=franjaKronowin, franja_aula=frangaAula
+        f2a, created = Franja2Aula.objects.get_or_create(
+            franja_kronowin=franjaKronowin,
+            defaults={'franja_aula': frangaAula}
         )
+        if not created and f2a.franja_aula is None:
+            f2a.franja_aula = frangaAula
+            f2a.save()
 
     print("#CREEM CORRESPONDÈNCIES  SAGA-KRONOWIN-AULA")
     for nivell, GrupsCursos in nivellsCursosGrups:

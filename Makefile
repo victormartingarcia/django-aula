@@ -63,4 +63,5 @@ down:
 load_demo_data:
 	${INFO} "Load demo data"
 	@ docker-compose exec web python manage.py loaddata aula/apps/*/fixtures/dades.json
+	@ docker-compose exec web python manage.py collectstatic --noinput
 	@ docker-compose exec web python manage.py loaddemodata
